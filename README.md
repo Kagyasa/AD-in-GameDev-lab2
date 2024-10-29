@@ -56,42 +56,26 @@
 С помощью скрипта на языке Python заполните google-таблицу данными, описывающими выбранную игровую переменную в игре “СПАСТИ РТФ:Выживание”. Средствами google-sheets визуализируйте данные в google-таблице (постройте график / диаграмму и пр.) для наглядного представления выбранной игровой величины. Опишите характер изменения этой величины, опишите недостатки в реализации этой величины (например, в игре может произойти условие наступления эксплойта) и предложите до 3-х вариантов модификации условий работы с переменной, чтобы сделать игровой опыт лучше.
 
 ### Код на Python:
+```py
 import gspread
-
 import numpy as np
-
 gc = gspread.service_account(filename='unitydatascience-438317-c80460a54663.json')
-
 sh = gc.open("UnityWorkshop2")
-
 coins = 150
-
 zombies_counter = 0
-
 coins_price = 20 #за 12 пуль
-
 #Допустим, чтобы убить 1 зомби надо 2 пули, то есть нам придется купить пули, когда мы убьем 75 зомби
-
 #Каждую волну зомби на 10 больше, чем в предыдущую, в первую волну 10 и в каждую волну за каждого зомби дают монет = номер волны
-
 for wave in range(1, 6):
-
     sh.sheet1.update(('A' + str(wave)), wave)
-    
-    sh.sheet1.update(('B' + str(wave)), coins)
-    
+    sh.sheet1.update(('B' + str(wave)), coins) 
     print(coins)
-    
     zombies = wave*10
-    
-    zombies_counter += zombies
-    
-    coins += zombies*wave
-    
-    if zombies_counter % 60 == 0:
-    
+    zombies_counter += zombies    
+    coins += zombies*wave    
+    if zombies_counter % 60 == 0:    
         coins -= coins_price*10
-        
+```
 
 ### Результат в таблице:
 ![image](https://github.com/user-attachments/assets/1c4b21da-0b3a-44c8-8106-889fd21a1a8b)
